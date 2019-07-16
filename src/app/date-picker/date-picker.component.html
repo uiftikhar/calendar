@@ -1,23 +1,20 @@
 <div class="calendar">
   <div class="calendar_left">
-
     <div class="d-flex flex-column align-items-center">
-      <!--<h1 class="m-0 p-0 date">{{ navDate.format('D') }}</h1>-->
-      <h1 class="m-0 p-0 date">17</h1>
-      <div class="day">{{ navDate.format('dddd') }}</div>
+      <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
+      <div class="day">{{ activeDate.format('dddd') }}</div>
     </div>
-    <div class="events">
-
-    </div>
-
+    <div class="events"></div>
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
-      <div mat-icon-button (click)="prevYear()"><mat-icon>arrow_left</mat-icon></div>
+      <div mat-icon-button (click)="prevYear()">
+        <mat-icon>arrow_left</mat-icon>
+      </div>
       <span class="pl-1 pr-1">{{ navDate.format('YYYY') }}</span>
       <div (click)="nextYear()"><mat-icon>arrow_right</mat-icon></div>
     </div>
-    <div class="header">
+    <div class="header d-flex justify-content-around">
       <div
         class="calendar-date"
         *ngFor="let month of monthsHeader"
@@ -26,7 +23,7 @@
         {{ month }}
       </div>
     </div>
-    <div class="header">
+    <div class="header d-flex justify-content-around mb-2">
       <div class="calendar-date" *ngFor="let day of weekDaysHeaderArr">
         {{ day }}
       </div>
@@ -35,10 +32,10 @@
       <div *ngFor="let day of gridArr">
         <div
           class="date_item"
-          [ngClass]="{ active: day.isActive }"
+          [ngClass]="{ active: day.isActive, disabled: !day.isSelectedMonth }"
           (click)="selectDay(day)"
         >
-          {{ day.value }}
+          {{ day.value.format('DD') }}
         </div>
       </div>
     </div>

@@ -17,14 +17,15 @@ export class DatePickerComponent implements OnInit {
   navDate: Moment;
   weekDaysHeaderArr: Array<string> = [];
   monthsHeader: Array<string> = [];
-  gridArr: Array<Date> = [];
-  selectedDate: any;
+  gridArr: Array<any> = [];
+  activeDate: Moment;
 
   constructor() {}
 
   ngOnInit() {
     moment.locale(this.localeString);
     this.navDate = moment();
+    this.activeDate = this.navDate;
     this.monthsHeader = moment.monthsShort();
     this.makeHeader();
     this.makeGrid();
@@ -41,38 +42,42 @@ export class DatePickerComponent implements OnInit {
     );
   }
 
+  isToday(date: moment.Moment): boolean {
+    return moment().isSame(moment(date), 'day');
+  }
+
+  range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
+
+  fillDates(currentMoment: moment.Moment): any[] {
+    const firstOfMonth = moment(currentMoment)
+      .startOf('month')
+      .day();
+
+    const firstDayOfGrid = moment(currentMoment)
+      .startOf('month')
+      .subtract(firstOfMonth, 'days');
+
+    const start = firstDayOfGrid.date();
+
+    return this.range(start, start + 42).map(
+      (date: number): any => {
+        const value = moment(firstDayOfGrid).date(date);
+        return {
+          today: this.isToday(value),
+          isSelectedMonth: this.isSelectedMonth(value),
+          isActive: false,
+          value,
+        };
+      },
+    );
+  }
+
+  isSelectedMonth(date: moment.Moment): boolean {
+    return moment(date).isSame(this.navDate, 'month');
+  }
+
   makeGrid() {
-    this.gridArr = [];
-
-    const firstDayDate = moment(this.navDate).startOf('month');
-    const initialEmptyCells = firstDayDate.weekday();
-    const lastDayDate = moment(this.navDate).endOf('month');
-    const lastEmptyCells = 6 - lastDayDate.weekday();
-    const daysInMonth = this.navDate.daysInMonth();
-    const arrayLength = initialEmptyCells + lastEmptyCells + daysInMonth;
-
-    for (let i = 0; i < arrayLength; i++) {
-      const date: Date = {
-        value: 0,
-        isActive: false,
-      };
-      if (i < initialEmptyCells) {
-        console.log(i);
-
-        const abc = initialEmptyCells;
-        const xs = moment(this.navDate).month();
-        date.value = moment(this.navDate)
-          .date(-i)
-          .date();
-        console.log(xs, initialEmptyCells);
-      } else if (i > initialEmptyCells + daysInMonth - 1) {
-        date.value = 0;
-      } else {
-        date.value = i - initialEmptyCells + 1;
-      }
-      date.isActive = false;
-      this.gridArr.push(date);
-    }
+    this.gridArr = this.fillDates(this.navDate);
   }
 
   dateFromNum(num: number, referenceDate: any): any {
@@ -80,10 +85,12 @@ export class DatePickerComponent implements OnInit {
     return returnDate.date(num);
   }
 
-  selectDay(day: Date) {
+  selectDay(day: any) {
     this.gridArr.forEach(item =>
       item.isActive ? (item.isActive = false) : item,
     );
+    this.activeDate = moment(day.value);
+    console.log(day, this.activeDate);
     day.isActive = true;
   }
 
