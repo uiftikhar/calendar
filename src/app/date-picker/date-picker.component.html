@@ -16,12 +16,16 @@
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
-      <button mat-icon-button>prev</button>
+      <button (click)="prevYear()">prev</button>
       <span class="pl-1 pr-1">{{ navDate.format('YYYY') }}</span>
-      <button mat-icon-button>next</button>
+      <button (click)="nextYear()">next</button>
     </div>
     <div class="header">
-      <div class="calendar-date" *ngFor="let month of monthsHeader">
+      <div
+        class="calendar-date"
+        *ngFor="let month of monthsHeader"
+        (click)="updateMonth(month)"
+      >
         {{ month }}
       </div>
     </div>

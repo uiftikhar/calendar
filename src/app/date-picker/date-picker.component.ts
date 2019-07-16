@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import {Moment} from 'moment';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-date-picker',
@@ -54,6 +54,7 @@ export class DatePickerComponent implements OnInit {
   }
 
   makeGrid() {
+    console.log('make grid');
     this.gridArr = [];
 
     const firstDayDate = moment(this.navDate).startOf('month');
@@ -94,5 +95,20 @@ export class DatePickerComponent implements OnInit {
     if (day.available) {
       this.selectedDate = this.dateFromNum(day.value, this.navDate);
     }
+  }
+
+  nextYear() {
+    this.navDate.add(1, 'y');
+    this.makeGrid();
+  }
+
+  prevYear() {
+    this.navDate.subtract(1, 'y');
+    this.makeGrid();
+  }
+
+  updateMonth(month) {
+    this.navDate.month(month);
+    this.makeGrid();
   }
 }
