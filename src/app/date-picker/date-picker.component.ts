@@ -21,7 +21,6 @@ export class DatePickerComponent implements OnInit {
     moment.locale(this.localeString);
     this.navDate = moment();
     this.monthsHeader = moment.monthsShort();
-    console.log(this.navDate.year(), this.navDate.format('YYYY'));
     this.makeHeader();
     this.makeGrid();
   }
@@ -92,6 +91,8 @@ export class DatePickerComponent implements OnInit {
   }
 
   selectDay(day: any) {
+    console.log(day);
+
     if (day.available) {
       this.selectedDate = this.dateFromNum(day.value, this.navDate);
     }

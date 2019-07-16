@@ -1,6 +1,4 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
@@ -37,20 +35,21 @@ body {
     position: relative;
     transform: scale(0.95) translateX(-10px);
     z-index: 0;
-    .dates {
-      display: flex;
-      justify-content: flex-start;
-      flex-flow: row wrap;
-      width: 350px;
-      .date_item {
-        width: 50px;
-        text-align: center;
-        height: 50px;
-        padding: 1em !important;
-        cursor: pointer;
-        //border-radius: 100%;
-      }
-    }
+  }
+}
+
+.dates {
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  width: 350px;
+  .date_item {
+    width: 50px;
+    text-align: center;
+    height: 50px;
+    padding: 1em;
+    cursor: pointer;
+    //border-radius: 100%;
   }
 }
 
