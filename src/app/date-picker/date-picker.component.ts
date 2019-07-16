@@ -65,23 +65,18 @@ export class DatePickerComponent implements OnInit {
 
     for (let i = 0; i < arrayLength; i++) {
       const obj: any = {};
-      if (i < initialEmptyCells || i > initialEmptyCells + daysInMonth - 1) {
-        obj.value = 0;
-        obj.available = false;
+      if (i < initialEmptyCells) {
+        obj.value = moment(this.navDate)
+          .date(-i)
+          .date();
+      } else if (i > initialEmptyCells + daysInMonth - 1) {
+        obj.value = moment(this.navDate)
+          .date(i)
+          .date();
       } else {
         obj.value = i - initialEmptyCells + 1;
-        obj.available = this.isAvailable(i - initialEmptyCells + 1);
       }
       this.gridArr.push(obj);
-    }
-  }
-
-  isAvailable(num: number): boolean {
-    const dateToCheck = this.dateFromNum(num, this.navDate);
-    if (dateToCheck.isBefore(moment(), 'day')) {
-      return false;
-    } else {
-      return true;
     }
   }
 
