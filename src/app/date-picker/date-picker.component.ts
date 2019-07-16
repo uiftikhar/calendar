@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
+interface Date {
+  value: number;
+  isActive: boolean;
+}
+
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
@@ -12,7 +17,7 @@ export class DatePickerComponent implements OnInit {
   navDate: Moment;
   weekDaysHeaderArr: Array<string> = [];
   monthsHeader: Array<string> = [];
-  gridArr: Array<any> = [];
+  gridArr: Array<Date> = [];
   selectedDate: any;
 
   constructor() {}
@@ -24,7 +29,6 @@ export class DatePickerComponent implements OnInit {
     this.makeHeader();
     this.makeGrid();
   }
-  
 
   makeHeader() {
     const weekDaysArr: Array<number> = [0, 1, 2, 3, 4, 5, 6];
@@ -38,7 +42,6 @@ export class DatePickerComponent implements OnInit {
   }
 
   makeGrid() {
-    console.log('make grid');
     this.gridArr = [];
 
     const firstDayDate = moment(this.navDate).startOf('month');
@@ -49,19 +52,26 @@ export class DatePickerComponent implements OnInit {
     const arrayLength = initialEmptyCells + lastEmptyCells + daysInMonth;
 
     for (let i = 0; i < arrayLength; i++) {
-      const obj: any = {};
+      const date: Date = {
+        value: 0,
+        isActive: false,
+      };
       if (i < initialEmptyCells) {
-        obj.value = moment(this.navDate)
+        console.log(i);
+
+        const abc = initialEmptyCells;
+        const xs = moment(this.navDate).month();
+        date.value = moment(this.navDate)
           .date(-i)
           .date();
+        console.log(xs, initialEmptyCells);
       } else if (i > initialEmptyCells + daysInMonth - 1) {
-        obj.value = moment(this.navDate)
-          .date(i)
-          .date();
+        date.value = 0;
       } else {
-        obj.value = i - initialEmptyCells + 1;
+        date.value = i - initialEmptyCells + 1;
       }
-      this.gridArr.push(obj);
+      date.isActive = false;
+      this.gridArr.push(date);
     }
   }
 
@@ -70,12 +80,11 @@ export class DatePickerComponent implements OnInit {
     return returnDate.date(num);
   }
 
-  selectDay(day: any) {
-    console.log(day);
-
-    if (day.available) {
-      this.selectedDate = this.dateFromNum(day.value, this.navDate);
-    }
+  selectDay(day: Date) {
+    this.gridArr.forEach(item =>
+      item.isActive ? (item.isActive = false) : item,
+    );
+    day.isActive = true;
   }
 
   nextYear() {

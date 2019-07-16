@@ -1,8 +1,11 @@
-* {
-  box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
-}
+//* {
+//  box-sizing: border-box;
+//  font-family: 'Roboto', sans-serif;
+//}
 
+md-icon{
+  font-family: 'Material Icons' !important;
+}
 // Variables
 $primary-color: #00a8e8;
 $radius: 5px;
@@ -18,23 +21,36 @@ body {
   align-items: center;
   height: 100vh;
   &_left {
-    background: red;
-    width: 400px;
-    height: 415px;
+    background: #EB364F;
+    border-top: black 1px solid;
+    border-left: black 1px solid;
+    border-bottom: black 1px solid;
+    width: 250px;
+    height: 460px;
     border-top-left-radius: $radius;
     border-bottom-left-radius: $radius;
     padding: 1.5em;
-    z-index: 1;
+    .date {
+      font-size: 8rem;
+      font-weight: bold;
+      color: white;
+      line-height: 1;
+    }
+    .day {
+      font-size: 20px;
+      color: white;
+      line-height: 1;
+    }
   }
   &_right {
     background: white;
-    width: 350px;
-    height: 415px;
+    border-top: black 1px solid;
+    border-right: black 1px solid;
+    border-bottom: black 1px solid;
+    height: 460px;
     border-top-right-radius: $radius;
     border-bottom-right-radius: $radius;
-    position: relative;
-    transform: scale(0.95) translateX(-10px);
-    z-index: 0;
+    padding: 1.5em;
   }
 }
 
@@ -49,6 +65,9 @@ body {
     height: 50px;
     padding: 1em;
     cursor: pointer;
+    &.active {
+      background-color: #00a8e8;
+    }
     //border-radius: 100%;
   }
 }

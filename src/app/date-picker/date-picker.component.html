@@ -1,13 +1,21 @@
 <div class="calendar">
   <div class="calendar_left">
-    <div>{{ navDate.format('D') }}</div>
-    <div>{{ navDate.format('dddd') }}</div>
+
+    <div class="d-flex flex-column align-items-center">
+      <!--<h1 class="m-0 p-0 date">{{ navDate.format('D') }}</h1>-->
+      <h1 class="m-0 p-0 date">17</h1>
+      <div class="day">{{ navDate.format('dddd') }}</div>
+    </div>
+    <div class="events">
+
+    </div>
+
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
-      <button (click)="prevYear()">prev</button>
+      <div mat-icon-button (click)="prevYear()"><mat-icon>arrow_left</mat-icon></div>
       <span class="pl-1 pr-1">{{ navDate.format('YYYY') }}</span>
-      <button (click)="nextYear()">next</button>
+      <div (click)="nextYear()"><mat-icon>arrow_right</mat-icon></div>
     </div>
     <div class="header">
       <div
@@ -25,10 +33,13 @@
     </div>
     <div class="dates">
       <div *ngFor="let day of gridArr">
-        <div *ngIf="day.value !== 0" class="date_item" (click)="selectDay(day)">
+        <div
+          class="date_item"
+          [ngClass]="{ active: day.isActive }"
+          (click)="selectDay(day)"
+        >
           {{ day.value }}
         </div>
-        <div *ngIf="day.value === 0" class="date_item"></div>
       </div>
     </div>
   </div>
