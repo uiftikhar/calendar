@@ -24,22 +24,7 @@ export class DatePickerComponent implements OnInit {
     this.makeHeader();
     this.makeGrid();
   }
-
-  changeNavMonth(num: number) {
-    if (this.canChangeNavMonth(num)) {
-      this.navDate.add(num, 'month');
-      this.makeGrid();
-    }
-  }
-
-  canChangeNavMonth(num: number) {
-    const clonedDate = moment(this.navDate);
-    clonedDate.add(num, 'month');
-    const minDate = moment().add(-1, 'month');
-    const maxDate = moment().add(1, 'year');
-
-    return clonedDate.isBetween(minDate, maxDate);
-  }
+  
 
   makeHeader() {
     const weekDaysArr: Array<number> = [0, 1, 2, 3, 4, 5, 6];
