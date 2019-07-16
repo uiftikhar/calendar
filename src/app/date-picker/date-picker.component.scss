@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+// Variables
+$primary-color: #00a8e8;
+$radius: 5px;
+
+html,
+body {
+  background: #f7f8fb;
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  &_left {
+    background: red;
+    width: 400px;
+    height: 415px;
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+    padding: 1.5em;
+    z-index: 1;
+  }
+  &_right {
+    background: white;
+    width: 350px;
+    height: 415px;
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+    position: relative;
+    transform: scale(0.95) translateX(-10px);
+    z-index: 0;
+    .dates {
+      display: flex;
+      justify-content: flex-start;
+      flex-flow: row wrap;
+      width: 350px;
+      .date_item {
+        width: 50px;
+        text-align: center;
+        height: 50px;
+        padding: 1em !important;
+        cursor: pointer;
+        border-radius: 100%;
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2em;
+  font-size: 0.7em;
+  h1 {
+    line-height: 1em;
+  }
+  i {
+    cursor: pointer;
+  }
+}
+
+.days {
+  display: flex;
+  justify-content: flex-start;
+  width: 400px;
+  .day_item {
+    color: #fff;
+    width: 50px;
+    text-align: center;
+    padding-bottom: 1em;
+  }
+}
+
+.present {
+  background: #fff;
+  transform: scale(0.7);
+  border-radius: 50px;
+  padding: 0.95em !important;
+  color: $primary-color !important;
+  z-index: 0;
+  box-shadow: 10px 10px 5px darken($primary-color, 3%);
+  animation: bounce-button-in 0.45s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    forwards;
+}
+
+// Browser Specific Overwrites
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-input-placeholder {
+  color: #fff;
+}
+
+// Animations
+.bounce-in.ng-animate {
+  animation: none 0s;
+}
+
+.bounce-in {
+  animation: bounce-in 0.9s 0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bounce-in {
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(7px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes bounce-button-in {
+  0% {
+    transform: translateZ(0) scale(0);
+  }
+  100% {
+    transform: translateZ(0) scale(0.7);
+  }
+}

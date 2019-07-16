@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
