@@ -1,26 +1,30 @@
 <div class="calendar">
   <div class="calendar_left">
     <div class="calendar-nav-previous-month">
-      <button
-        class="button is-text"
-        (click)="changeNavMonth(-1)"
-        [disabled]="!canChangeNavMonth(-1)"
-      >
+      <button class="button is-text" (click)="changeNavMonth(-1)">
+        <!--[disabled]="!canChangeNavMonth(-1)"-->
         <i class="fa fa-chevron-left"></i>
       </button>
     </div>
     <div>{{ navDate.format('MMMM YYYY') }}</div>
     <div class="calendar-nav-next-month">
-      <button
-        class="button is-text"
-        (click)="changeNavMonth(1)"
-        [disabled]="!canChangeNavMonth(1)"
-      >
+      <button class="button is-text" (click)="changeNavMonth(1)">
+        <!--[disabled]="!canChangeNavMonth(1)"-->
         <i class="fa fa-chevron-right"></i>
       </button>
     </div>
   </div>
   <div class="calendar_right">
+    <div class="d-flex justify-content-end">
+      <button mat-icon-button>prev</button>
+      <span class="pl-1 pr-1">{{ navDate.format('YYYY') }}</span>
+      <button mat-icon-button>next</button>
+    </div>
+    <div class="header">
+      <div class="calendar-date" *ngFor="let month of monthsHeader">
+        {{ month }}
+      </div>
+    </div>
     <div class="header">
       <div class="calendar-date" *ngFor="let day of weekDaysHeaderArr">
         {{ day }}
@@ -28,34 +32,11 @@
     </div>
     <div class="dates">
       <div *ngFor="let day of gridArr">
-        <button
-          *ngIf="day.value !== 0"
-          class="date_item"
-          (click)="selectDay(day)"
-        >
+        <div *ngIf="day.value !== 0" class="date_item" (click)="selectDay(day)">
           {{ day.value }}
-        </button>
-        <button *ngIf="day.value === 0" class="date_item"></button>
+        </div>
+        <div *ngIf="day.value === 0" class="date_item"></div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="calendar">
-  <div class="calendar_left">
-    <div class="header">
-      <i class="material-icons" (click)="changeNavMonth(-1)">navigate_before</i>
-      <h1>{{ calendar.month }}</h1>
-      <i class="material-icons" (click)="changeNavMonth(-1)">navigate_next</i>
-    </div>
-    <div class="days" *ngFor="let day of weekDaysHeaderArr">
-      {{ day }}
-    </div>
-  </div>
-  <div class="dates" *ngFor="let day of gridArr">
-    <button *ngIf="day.value !== 0" class="date-item" (click)="selectDay(day)">
-      {{ day.value }}
-    </button>
-    <button *ngIf="day.value === 0" class="date-item"></button>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import {Moment} from 'moment';
 
 @Component({
   selector: 'app-date-picker',
@@ -8,8 +9,9 @@ import * as moment from 'moment';
 })
 export class DatePickerComponent implements OnInit {
   localeString: string = 'en';
-  navDate: any;
+  navDate: Moment;
   weekDaysHeaderArr: Array<string> = [];
+  monthsHeader: Array<string> = [];
   gridArr: Array<any> = [];
   selectedDate: any;
 
@@ -18,6 +20,8 @@ export class DatePickerComponent implements OnInit {
   ngOnInit() {
     moment.locale(this.localeString);
     this.navDate = moment();
+    this.monthsHeader = moment.monthsShort();
+    console.log(this.navDate.year(), this.navDate.format('YYYY'));
     this.makeHeader();
     this.makeGrid();
   }
