@@ -78,6 +78,7 @@ export class DatePickerComponent implements OnInit {
   range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
 
   fillDates(currentMoment: Moment): any[] {
+
     const firstOfMonth = moment(currentMoment)
       .startOf('month')
       .day();

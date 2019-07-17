@@ -32,10 +32,13 @@
       <div *ngFor="let day of gridArr">
         <div
           class="date_item"
-          [ngClass]="{ active: day.isActive, disabled: !day.isSelectedMonth, event: day.event }"
+          [ngClass]="{ disabled: !day.isSelectedMonth }"
           (click)="selectDay(day)"
         >
-          {{ day.value.format('DD') }}
+          <div class="event" *ngIf="day.event"></div>
+          <div [ngClass]="{active: day.isActive }">
+            {{ day.value.format('DD') }}
+          </div>
         </div>
       </div>
     </div>
