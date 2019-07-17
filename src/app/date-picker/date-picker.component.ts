@@ -21,7 +21,7 @@ export class DatePickerComponent implements OnInit {
   monthsHeader: Array<string> = [];
   gridArr: Array<any> = [];
   activeDate: Moment;
-
+  currentEvents: [];
   events: {
     title: string;
     date: string;
@@ -29,6 +29,7 @@ export class DatePickerComponent implements OnInit {
 
   constructor(private datePicker: DatePickerService) {
     this.navDate = moment();
+    this.currentEvents = [];
   }
 
   ngOnInit() {
@@ -86,9 +87,17 @@ export class DatePickerComponent implements OnInit {
   }
 
   hasEvent(date: Moment): any {
-    return this.events.find(event =>
-      moment(event.date).isSame(moment(date), 'day'),
-    );
+    const events = [];
+    this.events.forEach(event => {
+      if (this.areDatesEqual(event.date, date)) {
+        events.push(event);
+      }
+    });
+    return events;
+  }
+
+  areDatesEqual(firstDate: string, secondDate: Moment) {
+    return moment(firstDate).isSame(moment(secondDate), 'day');
   }
 
   isSelectedMonth(date: Moment): boolean {
@@ -105,11 +114,13 @@ export class DatePickerComponent implements OnInit {
   }
 
   selectDay(day: any) {
+    this.currentEvents = [];
     this.gridArr.forEach(item =>
       item.isActive ? (item.isActive = false) : item,
     );
     this.activeDate = moment(day.value);
     day.isActive = true;
+    this.currentEvents = day.event;
   }
 
   nextYear() {
