@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { DatePickerService } from '../core/services/date-picker.service';
 
 interface Date {
   value: number;
@@ -20,35 +21,14 @@ export class DatePickerComponent implements OnInit {
   monthsHeader: Array<string> = [];
   gridArr: Array<any> = [];
   activeDate: Moment;
+
   events: {
     title: string;
-    date: Moment;
-  }[];
+    date: string;
+  }[] = [];
 
-  constructor() {
+  constructor(private datePicker: DatePickerService) {
     this.navDate = moment();
-    this.events = [
-      {
-        title: 'test 1',
-        date: moment(),
-      },
-      {
-        title: 'test 2',
-        date: moment().add(2, 'days'),
-      },
-      {
-        title: 'test 3',
-        date: moment().add(7, 'days'),
-      },
-      {
-        title: 'test 4',
-        date: moment().add(1, 'month'),
-      },
-      {
-        title: 'test 5',
-        date: moment().add(6, 'days'),
-      },
-    ];
   }
 
   ngOnInit() {
@@ -57,7 +37,10 @@ export class DatePickerComponent implements OnInit {
     this.activeDate = this.navDate;
     this.monthsHeader = moment.monthsShort();
     this.makeHeader();
-    this.makeGrid();
+    this.datePicker.getEvents().subscribe((res: any) => {
+      this.events = res.result;
+      this.makeGrid();
+    });
   }
 
   makeHeader() {
@@ -78,7 +61,6 @@ export class DatePickerComponent implements OnInit {
   range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
 
   fillDates(currentMoment: Moment): any[] {
-
     const firstOfMonth = moment(currentMoment)
       .startOf('month')
       .day();
@@ -105,7 +87,7 @@ export class DatePickerComponent implements OnInit {
 
   hasEvent(date: Moment): any {
     return this.events.find(event =>
-      moment(event.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'date'),
+      moment(event.date).isSame(moment(date), 'day'),
     );
   }
 
@@ -115,7 +97,6 @@ export class DatePickerComponent implements OnInit {
 
   makeGrid() {
     this.gridArr = this.fillDates(this.navDate);
-    console.log(this.gridArr);
   }
 
   dateFromNum(num: number, referenceDate: any): any {
