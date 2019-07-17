@@ -2,36 +2,40 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { DatePickerService } from '../core/services/date-picker.service';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 interface Date {
-  value: number;
+  date: string;
+  title: string;
+}
+
+interface CalendarDate {
+  today: boolean;
+  isSelectedMonth: boolean;
+  event: Date[];
   isActive: boolean;
+  value: number;
 }
 
 const MAX_NUMBER_WEEKS_IN_CALENDAR = 42;
+const range = (start, end) =>
+  Array.from(Array(end - start), (_, index) => start + index);
+
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
 })
+
 export class DatePickerComponent implements OnInit {
   localeString: string = 'en';
   navDate: Moment;
   weekDaysHeaderArr: Array<string> = [];
   monthsHeader: Array<string> = [];
-  gridArr: Array<any> = [];
+  gridArr: Array<CalendarDate> = [];
   activeDate: Moment;
-  currentEvents = [];
-  events: {
-    title: string;
-    date: string;
-  }[] = [];
+  currentEvents: Date[] = [];
+  events: Date[] = [];
   currentEventsForm: FormGroup;
 
   constructor(
@@ -44,32 +48,6 @@ export class DatePickerComponent implements OnInit {
     this.currentEventsForm = this.formBuilder.group({
       currentEvents: [[]],
     });
-
-    // const abc = [
-    //   {
-    //     date: moment().toISOString(),
-    //     title: 'test 1',
-    //   },
-    //   {
-    //     date: moment()
-    //       .add(2, 'days')
-    //       .toISOString(),
-    //     title: 'test 1',
-    //   },
-    //   {
-    //     date: moment()
-    //       .add(6, 'days')
-    //       .toISOString(),
-    //     title: 'test 1',
-    //   },
-    //   {
-    //     date: moment().toISOString(),
-    //     title: 'test 1',
-    //   },
-    // ];
-    // this.datePicker.addEvent(abc).subscribe(() => {
-    //   this.currentEventsForm.setValue({ currentEvents: '' });
-    // });
   }
 
   ngOnInit() {
@@ -77,41 +55,41 @@ export class DatePickerComponent implements OnInit {
     this.activeDate = this.navDate;
     this.monthsHeader = moment.monthsShort();
     this.makeHeader();
-    this.datePicker.getEvents().subscribe((res: any) => {
-      this.events = res.result;
+
+    this.datePicker.getEvents().subscribe(res => {
+      this.events = res;
+      this.datePicker.currentEvents = this.events;
       this.makeGrid();
     });
   }
 
   addEvent() {
-    const newEvent = this.currentEventsForm.get('currentEvents').value;
-
-    // Need to do this in DB
-    this.currentEvents.push({
-      date: moment().toISOString(),
-      title: newEvent,
-    });
-    this.datePicker.addEvent(this.currentEvents).subscribe(() => {
+    const newEvent = {
+      date: this.activeDate.toISOString(),
+      title: this.currentEventsForm.get('currentEvents').value,
+    };
+    this.datePicker.addEvent(newEvent).subscribe(() => {
+      this.currentEvents.push(newEvent);
       this.currentEventsForm.setValue({ currentEvents: '' });
     });
   }
 
+  deleteEvent(title: string) {
+    this.currentEvents = this.currentEvents.filter(
+      event => event.title !== title,
+    );
+  }
+
   makeHeader() {
-    const weekDaysArr: Array<number> = [0, 1, 2, 3, 4, 5, 6];
-    weekDaysArr.forEach(day =>
-      this.weekDaysHeaderArr.push(
-        moment()
-          .weekday(day)
-          .format('ddd'),
-      ),
+    const weekDaysArray: Array<number> = [0, 1, 2, 3, 4, 5, 6];
+    weekDaysArray.forEach(day =>
+      this.weekDaysHeaderArr.push(this.activeDate.weekday(day).format('ddd')),
     );
   }
 
   isToday(date: Moment): boolean {
     return moment().isSame(moment(date), 'day');
   }
-
-  range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
 
   fillDates(currentMoment: Moment): any[] {
     const firstOfMonth = moment(currentMoment)
@@ -124,13 +102,13 @@ export class DatePickerComponent implements OnInit {
 
     const start = firstDayOfGrid.date();
 
-    return this.range(start, start + MAX_NUMBER_WEEKS_IN_CALENDAR).map(
+    return range(start, start + MAX_NUMBER_WEEKS_IN_CALENDAR).map(
       (date: number): any => {
         const value = moment(firstDayOfGrid).date(date);
         return {
           today: this.isToday(value),
           isSelectedMonth: this.isSelectedMonth(value),
-          event: this.hasEvent(value),
+          event: this.eventsForDate(value),
           isActive: false,
           value,
         };
@@ -138,7 +116,7 @@ export class DatePickerComponent implements OnInit {
     );
   }
 
-  hasEvent(date: Moment): any {
+  eventsForDate(date: Moment): any {
     const events = [];
     this.events.forEach(event => {
       if (this.areDatesEqual(event.date, date)) {
@@ -160,19 +138,18 @@ export class DatePickerComponent implements OnInit {
     this.gridArr = this.fillDates(this.navDate);
   }
 
-  dateFromNum(num: number, referenceDate: any): any {
-    const returnDate = moment(referenceDate);
-    return returnDate.date(num);
+  onSelectDay(day: CalendarDate) {
+    this.resetCurrentEvents();
+    this.activeDate = moment(day.value);
+    day.isActive = true;
+    this.currentEvents = day.event;
   }
 
-  selectDay(day: any) {
+  private resetCurrentEvents() {
     this.currentEvents = [];
     this.gridArr.forEach(item =>
       item.isActive ? (item.isActive = false) : item,
     );
-    this.activeDate = moment(day.value);
-    day.isActive = true;
-    this.currentEvents = day.event;
   }
 
   nextYear() {

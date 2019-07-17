@@ -5,6 +5,26 @@
 $primary-color: #00a8e8;
 $radius: 5px;
 $border: black 1px solid;
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+::ng-deep .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;;
+}
+
 
 html,
 body {
@@ -67,6 +87,11 @@ body {
   }
 }
 
+.events-container {
+  height: 75px;
+  overflow-y: auto;
+}
+
 .active {
   background-color: #00a8e8;
   height: 25px;
@@ -85,8 +110,7 @@ body {
   margin-left: 20px;
 }
 
-
-.calendar-date {
+.pointer {
   cursor: pointer;
 }
 

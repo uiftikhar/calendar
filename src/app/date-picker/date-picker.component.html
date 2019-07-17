@@ -4,11 +4,14 @@
       <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
       <div class="day text-center">{{ activeDate.format('dddd') }}</div>
     </div>
-    <div class="events mt-5 d-flex flex-column justify-content-between h-100">
+    <div class="mt-5 d-flex flex-column justify-content-between h-100">
       <h6 class="white">Current Events</h6>
-      <ul class="m-0" *ngFor="let event of currentEvents">
-        <li class="m-0">{{ event.title }}</li>
-      </ul>
+      <div class="m-0 pl-2 events-container">
+        <div class="m-0 white d-flex" *ngFor="let event of currentEvents">
+          {{ event.title }}
+          <div class="pointer ml-auto pr-5" (click)="deleteEvent(event.title)">x</div>
+        </div>
+      </div>
       <form class="d-flex flex-row" [formGroup]="currentEventsForm">
         <mat-form-field>
           <input
@@ -18,7 +21,7 @@
           />
         </mat-form-field>
         <button mat-mini-fab (click)="addEvent()">
-          <mat-icon>check</mat-icon>
+          <mat-icon>add</mat-icon>
         </button>
       </form>
     </div>
@@ -33,7 +36,7 @@
     </div>
     <div class="header d-flex justify-content-around">
       <div
-        class="calendar-date"
+        class="pointer"
         *ngFor="let month of monthsHeader"
         (click)="updateMonth(month)"
       >
@@ -50,10 +53,10 @@
         <div
           class="date_item"
           [ngClass]="{ disabled: !day.isSelectedMonth }"
-          (click)="selectDay(day)"
+          (click)="onSelectDay(day)"
         >
           <div class="event" *ngIf="day.event.length > 0"></div>
-          <div [ngClass]="{ active: day.isActive }">
+          <div [ngClass]="{ active: day.isActive, active: day.today }">
             {{ day.value.format('DD') }}
           </div>
         </div>

@@ -62,6 +62,14 @@
       true,
       "as-needed"
     ],
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore",
+        "allow-pascal-case"
+      ]
+    },
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "quotemark": [
