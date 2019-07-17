@@ -7,6 +7,8 @@ interface Date {
   isActive: boolean;
 }
 
+
+const MAX_NUMBER_WEEKS_IN_CALENDAR = 42;
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
@@ -59,7 +61,7 @@ export class DatePickerComponent implements OnInit {
 
     const start = firstDayOfGrid.date();
 
-    return this.range(start, start + 42).map(
+    return this.range(start, start + MAX_NUMBER_WEEKS_IN_CALENDAR).map(
       (date: number): any => {
         const value = moment(firstDayOfGrid).date(date);
         return {
@@ -78,6 +80,7 @@ export class DatePickerComponent implements OnInit {
 
   makeGrid() {
     this.gridArr = this.fillDates(this.navDate);
+    console.log
   }
 
   dateFromNum(num: number, referenceDate: any): any {
@@ -90,7 +93,6 @@ export class DatePickerComponent implements OnInit {
       item.isActive ? (item.isActive = false) : item,
     );
     this.activeDate = moment(day.value);
-    console.log(day, this.activeDate);
     day.isActive = true;
   }
 
