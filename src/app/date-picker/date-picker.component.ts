@@ -7,7 +7,6 @@ interface Date {
   isActive: boolean;
 }
 
-
 const MAX_NUMBER_WEEKS_IN_CALENDAR = 42;
 @Component({
   selector: 'app-date-picker',
@@ -21,12 +20,40 @@ export class DatePickerComponent implements OnInit {
   monthsHeader: Array<string> = [];
   gridArr: Array<any> = [];
   activeDate: Moment;
+  events: {
+    title: string;
+    date: Moment;
+  }[];
 
-  constructor() {}
+  constructor() {
+    this.navDate = moment();
+    this.events = [
+      {
+        title: 'test 1',
+        date: moment(),
+      },
+      {
+        title: 'test 2',
+        date: moment().add(2, 'days'),
+      },
+      {
+        title: 'test 3',
+        date: moment().add(7, 'days'),
+      },
+      {
+        title: 'test 4',
+        date: moment().add(1, 'month'),
+      },
+      {
+        title: 'test 5',
+        date: moment().add(6, 'days'),
+      },
+    ];
+  }
 
   ngOnInit() {
     moment.locale(this.localeString);
-    this.navDate = moment();
+
     this.activeDate = this.navDate;
     this.monthsHeader = moment.monthsShort();
     this.makeHeader();
@@ -44,13 +71,13 @@ export class DatePickerComponent implements OnInit {
     );
   }
 
-  isToday(date: moment.Moment): boolean {
+  isToday(date: Moment): boolean {
     return moment().isSame(moment(date), 'day');
   }
 
   range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
 
-  fillDates(currentMoment: moment.Moment): any[] {
+  fillDates(currentMoment: Moment): any[] {
     const firstOfMonth = moment(currentMoment)
       .startOf('month')
       .day();
@@ -67,6 +94,7 @@ export class DatePickerComponent implements OnInit {
         return {
           today: this.isToday(value),
           isSelectedMonth: this.isSelectedMonth(value),
+          event: this.hasEvent(value),
           isActive: false,
           value,
         };
@@ -74,13 +102,19 @@ export class DatePickerComponent implements OnInit {
     );
   }
 
-  isSelectedMonth(date: moment.Moment): boolean {
+  hasEvent(date: Moment): any {
+    return this.events.find(event =>
+      moment(event.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'date'),
+    );
+  }
+
+  isSelectedMonth(date: Moment): boolean {
     return moment(date).isSame(this.navDate, 'month');
   }
 
   makeGrid() {
     this.gridArr = this.fillDates(this.navDate);
-    console.log
+    console.log(this.gridArr);
   }
 
   dateFromNum(num: number, referenceDate: any): any {

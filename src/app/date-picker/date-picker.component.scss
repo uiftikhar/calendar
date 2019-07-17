@@ -72,6 +72,9 @@ body {
     &.disabled {
       color: lightgray;
     }
+    &.event {
+      background-color: purple;
+    }
     border-radius: 100%;
   }
 }
