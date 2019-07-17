@@ -3,30 +3,15 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 import { DatePickerService } from '../core/services/date-picker.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-interface Date {
-  date: string;
-  title: string;
-}
-
-interface CalendarDate {
-  today: boolean;
-  isSelectedMonth: boolean;
-  event: Date[];
-  isActive: boolean;
-  value: number;
-}
-
-const MAX_NUMBER_WEEKS_IN_CALENDAR = 42;
-const range = (start, end) =>
-  Array.from(Array(end - start), (_, index) => start + index);
+import { Date } from '../core/models/date';
+import { CalendarDate } from '../core/models/calendar-date';
+import { range } from '../core/utils';
 
 @Component({
   selector: 'app-date-picker',
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
 })
-
 export class DatePickerComponent implements OnInit {
   localeString: string = 'en';
   navDate: Moment;
@@ -37,6 +22,7 @@ export class DatePickerComponent implements OnInit {
   currentEvents: Date[] = [];
   events: Date[] = [];
   currentEventsForm: FormGroup;
+  private MAX_NUMBER_WEEKS_IN_CALENDAR = 42;
 
   constructor(
     protected formBuilder: FormBuilder,
@@ -102,12 +88,12 @@ export class DatePickerComponent implements OnInit {
 
     const start = firstDayOfGrid.date();
 
-    return range(start, start + MAX_NUMBER_WEEKS_IN_CALENDAR).map(
-      (date: number): any => {
+    return range(start, start + this.MAX_NUMBER_WEEKS_IN_CALENDAR).map(
+      (date: number) => {
         const value = moment(firstDayOfGrid).date(date);
         return {
           today: this.isToday(value),
-          isSelectedMonth: this.isSelectedMonth(value),
+          isCurrentMonth: this.isCurrentMonth(value),
           event: this.eventsForDate(value),
           isActive: false,
           value,
@@ -116,7 +102,7 @@ export class DatePickerComponent implements OnInit {
     );
   }
 
-  eventsForDate(date: Moment): any {
+  eventsForDate(date: Moment): Date[] {
     const events = [];
     this.events.forEach(event => {
       if (this.areDatesEqual(event.date, date)) {
@@ -126,43 +112,43 @@ export class DatePickerComponent implements OnInit {
     return events;
   }
 
-  areDatesEqual(firstDate: string, secondDate: Moment) {
+  areDatesEqual(firstDate: string, secondDate: Moment): boolean {
     return moment(firstDate).isSame(moment(secondDate), 'day');
   }
 
-  isSelectedMonth(date: Moment): boolean {
+  isCurrentMonth(date: Moment): boolean {
     return moment(date).isSame(this.navDate, 'month');
   }
 
-  makeGrid() {
+  makeGrid(): void {
     this.gridArr = this.fillDates(this.navDate);
   }
 
-  onSelectDay(day: CalendarDate) {
+  onSelectDay(day: CalendarDate): void {
     this.resetCurrentEvents();
     this.activeDate = moment(day.value);
     day.isActive = true;
     this.currentEvents = day.event;
   }
 
-  private resetCurrentEvents() {
+  private resetCurrentEvents(): void {
     this.currentEvents = [];
     this.gridArr.forEach(item =>
       item.isActive ? (item.isActive = false) : item,
     );
   }
 
-  nextYear() {
+  nextYear(): void {
     this.navDate.add(1, 'y');
     this.makeGrid();
   }
 
-  prevYear() {
+  prevYear(): void {
     this.navDate.subtract(1, 'y');
     this.makeGrid();
   }
 
-  updateMonth(month) {
+  updateMonth(month): void {
     this.navDate.month(month);
     this.makeGrid();
   }

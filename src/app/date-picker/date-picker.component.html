@@ -52,7 +52,7 @@
       <div *ngFor="let day of gridArr">
         <div
           class="date_item"
-          [ngClass]="{ disabled: !day.isSelectedMonth }"
+          [ngClass]="{ disabled: !day.isCurrentMonth }"
           (click)="onSelectDay(day)"
         >
           <div class="event" *ngIf="day.event.length > 0"></div>
