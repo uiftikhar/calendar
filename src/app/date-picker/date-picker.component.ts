@@ -25,11 +25,21 @@ export class DatePickerComponent implements OnInit {
     date: Moment;
   }[];
 
+  currentEvents = [];
+
   constructor() {
     this.navDate = moment();
     this.events = [
       {
         title: 'test 1',
+        date: moment(),
+      },
+      {
+        title: 'A',
+        date: moment(),
+      },
+      {
+        title: 'B',
         date: moment(),
       },
       {
@@ -78,7 +88,6 @@ export class DatePickerComponent implements OnInit {
   range = (start, end) => Array.from(Array(end - start), (_, i) => start + i);
 
   fillDates(currentMoment: Moment): any[] {
-
     const firstOfMonth = moment(currentMoment)
       .startOf('month')
       .day();
@@ -104,8 +113,19 @@ export class DatePickerComponent implements OnInit {
   }
 
   hasEvent(date: Moment): any {
-    return this.events.find(event =>
-      moment(event.date, 'MM/D/YYYY').isSame(moment(date, 'MM/D/YYYY'), 'date'),
+    const events = [];
+    this.events.forEach(event => {
+      if (this.areDatesEqual(event.date, date)) {
+        events.push(event);
+      }
+    });
+    return events;
+  }
+
+  areDatesEqual(firstDate: Moment, secondDate: Moment) {
+    return moment(firstDate, 'MM/D/YYYY').isSame(
+      moment(secondDate, 'MM/D/YYYY'),
+      'date',
     );
   }
 
@@ -124,11 +144,13 @@ export class DatePickerComponent implements OnInit {
   }
 
   selectDay(day: any) {
+    this.currentEvents = [];
     this.gridArr.forEach(item =>
       item.isActive ? (item.isActive = false) : item,
     );
     this.activeDate = moment(day.value);
     day.isActive = true;
+    this.currentEvents = day.event;
   }
 
   nextYear() {

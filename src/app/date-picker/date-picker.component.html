@@ -4,7 +4,12 @@
       <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
       <div class="day">{{ activeDate.format('dddd') }}</div>
     </div>
-    <div class="events"></div>
+    <div class="events mt-5">
+      <h6 class="white">Current Events</h6>
+      <ul class="m-0" *ngFor="let event of currentEvents">
+        <li class="m-0">{{ event.title }}</li>
+      </ul>
+    </div>
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
@@ -35,8 +40,8 @@
           [ngClass]="{ disabled: !day.isSelectedMonth }"
           (click)="selectDay(day)"
         >
-          <div class="event" *ngIf="day.event"></div>
-          <div [ngClass]="{active: day.isActive }">
+          <div class="event" *ngIf="day.event.length > 0"></div>
+          <div [ngClass]="{ active: day.isActive }">
             {{ day.value.format('DD') }}
           </div>
         </div>
