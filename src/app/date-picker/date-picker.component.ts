@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { DatePickerService } from '../core/services/date-picker.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 interface Date {
   value: number;
@@ -21,26 +27,72 @@ export class DatePickerComponent implements OnInit {
   monthsHeader: Array<string> = [];
   gridArr: Array<any> = [];
   activeDate: Moment;
-  currentEvents: [];
+  currentEvents = [];
   events: {
     title: string;
     date: string;
   }[] = [];
+  currentEventsForm: FormGroup;
 
-  constructor(private datePicker: DatePickerService) {
+  constructor(
+    protected formBuilder: FormBuilder,
+    private datePicker: DatePickerService,
+  ) {
     this.navDate = moment();
     this.currentEvents = [];
+
+    this.currentEventsForm = this.formBuilder.group({
+      currentEvents: [[]],
+    });
+
+    // const abc = [
+    //   {
+    //     date: moment().toISOString(),
+    //     title: 'test 1',
+    //   },
+    //   {
+    //     date: moment()
+    //       .add(2, 'days')
+    //       .toISOString(),
+    //     title: 'test 1',
+    //   },
+    //   {
+    //     date: moment()
+    //       .add(6, 'days')
+    //       .toISOString(),
+    //     title: 'test 1',
+    //   },
+    //   {
+    //     date: moment().toISOString(),
+    //     title: 'test 1',
+    //   },
+    // ];
+    // this.datePicker.addEvent(abc).subscribe(() => {
+    //   this.currentEventsForm.setValue({ currentEvents: '' });
+    // });
   }
 
   ngOnInit() {
     moment.locale(this.localeString);
-
     this.activeDate = this.navDate;
     this.monthsHeader = moment.monthsShort();
     this.makeHeader();
     this.datePicker.getEvents().subscribe((res: any) => {
       this.events = res.result;
       this.makeGrid();
+    });
+  }
+
+  addEvent() {
+    const newEvent = this.currentEventsForm.get('currentEvents').value;
+
+    // Need to do this in DB
+    this.currentEvents.push({
+      date: moment().toISOString(),
+      title: newEvent,
+    });
+    this.datePicker.addEvent(this.currentEvents).subscribe(() => {
+      this.currentEventsForm.setValue({ currentEvents: '' });
     });
   }
 

@@ -9,8 +9,18 @@
       <ul class="m-0" *ngFor="let event of currentEvents">
         <li class="m-0">{{ event.title }}</li>
       </ul>
-
-      <h6 class="white mt-auto">create event</h6>
+      <form class="d-flex flex-row" [formGroup]="currentEventsForm">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="add event"
+            formControlName="currentEvents"
+          />
+        </mat-form-field>
+        <button mat-mini-fab (click)="addEvent()">
+          <mat-icon>check</mat-icon>
+        </button>
+      </form>
     </div>
   </div>
   <div class="calendar_right">
