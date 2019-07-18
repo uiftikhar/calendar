@@ -33,10 +33,14 @@
     width: 50px;
     height: 50px;
     padding: 1em;
-    border-radius: 100%;
     &.disabled {
       color: lightgray;
     }
+    :hover {
+      //background-color: aliceblue;
+      //border-radius: 100%;
+    }
+    border-radius: 100%;
   }
 }
 
@@ -67,8 +71,17 @@
   cursor: pointer;
 }
 
+.bold {
+  font-weight: bolder;
+  color: black !important;
+}
+
 .white {
   color: $white;
+}
+
+.light-gray {
+  color: $light-gray;
 }
 
 .header {

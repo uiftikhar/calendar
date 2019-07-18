@@ -31,21 +31,22 @@
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
-      <div class="pointer" mat-icon-button (click)="prevYear()">
+      <div class="pointer light-gray" mat-icon-button (click)="prevYear()">
         <mat-icon>arrow_left</mat-icon>
       </div>
-      <span class="pl-1 pr-1">{{ activeDate.format('YYYY') }}</span>
-      <div class="pointer" (click)="nextYear()">
+      <span class="pl-1 pr-1 light-gray">{{ activeDate.format('YYYY') }}</span>
+      <div class="pointer light-gray" (click)="nextYear()">
         <mat-icon>arrow_right</mat-icon>
       </div>
     </div>
     <div class="header d-flex justify-content-around">
       <div
-        class="pointer"
-        *ngFor="let month of monthsHeader"
-        (click)="updateMonth(month)"
+        class="pointer light-gray"
+        *ngFor="let months of monthsHeader"
+        (click)="onUpdateMonth(months)"
+        [ngClass]="{'bold': months.isActive}"
       >
-        {{ month }}
+        {{ months.month }}
       </div>
     </div>
     <div class="header d-flex justify-content-around mb-2">
@@ -56,8 +57,8 @@
     <div class="dates d-flex justify-content-start flex-wrap">
       <div *ngFor="let day of calendarGrid">
         <div
-          class="date_item text-center pointer"
           [ngClass]="{ disabled: !day.isCurrentMonth }"
+          class="date_item text-center pointer"
           (click)="onSelectDay(day)"
         >
           <div class="event" *ngIf="day.event.length > 0"></div>
