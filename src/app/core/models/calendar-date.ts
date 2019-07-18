@@ -1,4 +1,4 @@
-import { Date } from './date';
+import { Date } from '@app/core/models/date';
 import { Moment } from 'moment';
 
 export interface CalendarDate {

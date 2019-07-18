@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { DatePickerService } from '../core/services/date-picker.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Date } from '../core/models/date';
-import { CalendarDate } from '../core/models/calendar-date';
-import { range } from '../core/utils';
-import { Month } from '../core/models/month';
+import { DatePickerService } from '@app/core/services/date-picker.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Date } from '@app/core/models/date';
+import { CalendarDate } from '@app/core/models/calendar-date';
+import { range } from '@app/core/utils';
+import { Month } from '@app/core/models/month';
 
 @Component({
   selector: 'app-date-picker',
@@ -31,7 +31,7 @@ export class DatePickerComponent implements OnInit {
     this.currentEvents = [];
 
     this.currentEventsForm = this.formBuilder.group({
-      currentEvents: [[]],
+      currentEvents: [[], Validators.required],
     });
   }
 

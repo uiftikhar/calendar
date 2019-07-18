@@ -44,6 +44,9 @@
 .mat-mini-fab.mat-accent,
 .mat-raised-button.mat-accent {
   background-color: $black;
+  &.disabled {
+    background-color: $light-gray;
+  }
 }
 
 .events-container {
@@ -51,17 +54,18 @@
   overflow-y: auto;
 }
 
-.active, .today {
+.active,
+.today {
   background-color: $primary-color;
   color: $white;
   text-align: center;
   font-weight: bold;
-  &.today {
-    background-color: $today;
-  }
   &.calendar-date:hover {
     background-color: $primary-color;
   }
+}
+.today {
+  background-color: $today;
 }
 
 .event {

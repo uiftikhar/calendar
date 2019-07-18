@@ -23,7 +23,12 @@
             formControlName="currentEvents"
           />
         </mat-form-field>
-        <button mat-mini-fab (click)="addEvent()">
+        <button
+          mat-mini-fab
+          [disabled]="!currentEventsForm.valid"
+          (click)="addEvent()"
+          [ngClass]="{ disabled: !currentEventsForm.valid }"
+        >
           <mat-icon>add</mat-icon>
         </button>
       </form>
@@ -50,7 +55,10 @@
       </div>
     </div>
     <div class="header  d-flex justify-content-around mb-2">
-      <div class="bold weekday-header" *ngFor="let day of weekDaysHeader; trackBy: trackByFn">
+      <div
+        class="bold weekday-header"
+        *ngFor="let day of weekDaysHeader; trackBy: trackByFn"
+      >
         {{ day }}
       </div>
     </div>
