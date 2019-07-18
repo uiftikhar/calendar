@@ -175,7 +175,6 @@ export class DatePickerComponent implements OnInit {
   }
 
   trackByFn(index, item) {
-    console.log(index);
     return index;
   }
 }
