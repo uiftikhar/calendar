@@ -108,6 +108,7 @@ export class DatePickerComponent implements OnInit {
     this.events.forEach(event => {
       if (this.areDatesEqual(event.date, date)) {
         events.push(event);
+        this.currentEvents.push(event);
       }
     });
     return events;
