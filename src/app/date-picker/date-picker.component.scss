@@ -1,85 +1,38 @@
-//md-icon{
-//  //font-family: 'Material Icons' !important;
-//}
-// Variables
-$primary-color: #00a8e8;
-$radius: 5px;
-$border: black 1px solid;
-::ng-deep .mat-focused .mat-form-field-label {
-  /*change color of label*/
-  color: white !important;
-}
+@import '../../styles/variables';
 
-::ng-deep .mat-form-field-label {
-  /*change color of label*/
-  color: white !important;
-}
-
-::ng-deep.mat-form-field-underline {
-  /*change color of underline*/
-  background-color: white !important;
-}
-
-::ng-deep.mat-form-field-ripple {
-  /*change color of underline when focused*/
-  background-color: white !important;;
-}
-
-
-html,
-body {
-  background: #f7f8fb;
-}
-
-.white {
-  color: white;
-}
-
-.calendar {
-  &_left {
-    background: #EB364F;
-    border-top: $border;
-    border-left: $border;
-    border-bottom: $border;
-    height: 420px;
-    width: 250px;
-    border-top-left-radius: $radius;
-    border-bottom-left-radius: $radius;
-    .date {
-      font-size: 8rem;
-      font-weight: bold;
-      color: white;
-      line-height: 1;
-    }
-    .day {
-      font-size: 20px;
-      color: white;
-      line-height: 1;
-    }
+.calendar_left {
+  background: $primary-color;
+  height: 400px;
+  width: 250px;
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  .date {
+    font-size: 8rem;
+    font-weight: bold;
+    color: $white;
+    line-height: 1;
   }
-  &_right {
-    background: white;
-    border-top: $border;
-    border-right: $border;
-    border-bottom: $border;
-    height: 420px;
-    border-top-right-radius: $radius;
-    border-bottom-right-radius: $radius;
-    padding: 1.5em;
+  .day {
+    font-size: 20px;
+    color: $white;
+    line-height: 1;
   }
+}
+
+.calendar_right {
+  background: $white;
+  height: 400px;
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  padding: 1em;
 }
 
 .dates {
-  display: flex;
-  justify-content: flex-start;
-  flex-flow: row wrap;
   width: 350px;
   .date_item {
     width: 50px;
-    text-align: center;
     height: 50px;
     padding: 1em;
-    cursor: pointer;
     border-radius: 100%;
     &.disabled {
       color: lightgray;
@@ -88,16 +41,16 @@ body {
 }
 
 .events-container {
-  height: 75px;
+  height: 65px;
   overflow-y: auto;
 }
 
 .active {
-  background-color: #00a8e8;
+  background-color: $primary-color;
   height: 25px;
   width: 25px;
   border-radius: 100%;
-  color: white;
+  color: $white;
   text-align: center;
 }
 
@@ -105,13 +58,17 @@ body {
   width: 5px;
   height: 5px;
   margin-top: -5px;
-  border-radius: 100%;
+  border-radius: 50%;
   background-color: red;
   margin-left: 20px;
 }
 
 .pointer {
   cursor: pointer;
+}
+
+.white {
+  color: $white;
 }
 
 .header {

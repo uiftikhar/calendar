@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center flex-wrap">
   <div class="d-flex flex-column align-items-center calendar_left p-5">
     <div class="">
       <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
@@ -9,12 +9,15 @@
       <div class="m-0 pl-2 events-container">
         <div class="m-0 white d-flex" *ngFor="let event of currentEvents">
           {{ event.title }}
-          <div class="pointer ml-auto pr-5" (click)="deleteEvent(event.title)">x</div>
+          <div class="pointer ml-auto pr-5" (click)="deleteEvent(event.title)">
+            x
+          </div>
         </div>
       </div>
       <form class="d-flex flex-row" [formGroup]="currentEventsForm">
         <mat-form-field>
           <input
+            class="white"
             matInput
             placeholder="add event"
             formControlName="currentEvents"
@@ -28,11 +31,13 @@
   </div>
   <div class="calendar_right">
     <div class="d-flex justify-content-end">
-      <div mat-icon-button (click)="prevYear()">
+      <div class="pointer" mat-icon-button (click)="prevYear()">
         <mat-icon>arrow_left</mat-icon>
       </div>
-      <span class="pl-1 pr-1">{{ navDate.format('YYYY') }}</span>
-      <div (click)="nextYear()"><mat-icon>arrow_right</mat-icon></div>
+      <span class="pl-1 pr-1">{{ activeDate.format('YYYY') }}</span>
+      <div class="pointer" (click)="nextYear()">
+        <mat-icon>arrow_right</mat-icon>
+      </div>
     </div>
     <div class="header d-flex justify-content-around">
       <div
@@ -44,19 +49,19 @@
       </div>
     </div>
     <div class="header d-flex justify-content-around mb-2">
-      <div class="calendar-date" *ngFor="let day of weekDaysHeaderArr">
+      <div class="calendar-date" *ngFor="let day of weekDaysHeader">
         {{ day }}
       </div>
     </div>
-    <div class="dates">
-      <div *ngFor="let day of gridArr">
+    <div class="dates d-flex justify-content-start flex-wrap">
+      <div *ngFor="let day of calendarGrid">
         <div
-          class="date_item"
+          class="date_item text-center pointer"
           [ngClass]="{ disabled: !day.isCurrentMonth }"
           (click)="onSelectDay(day)"
         >
           <div class="event" *ngIf="day.event.length > 0"></div>
-          <div [ngClass]="{ active: day.isActive, active: day.today }">
+          <div [ngClass]="{ active: day.isActive }">
             {{ day.value.format('DD') }}
           </div>
         </div>
