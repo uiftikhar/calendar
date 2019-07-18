@@ -140,10 +140,12 @@ export class DatePickerComponent implements OnInit {
   }
 
   onSelectDay(day: CalendarDate): void {
-    this.resetCurrentEvents();
-    this.activeDate = moment(day.value);
-    day.isActive = true;
-    this.currentEvents = day.event;
+    if (day.isCurrentMonth) {
+      this.resetCurrentEvents();
+      this.activeDate = moment(day.value);
+      day.isActive = true;
+      this.currentEvents = day.event;
+    }
   }
 
   resetCurrentEvents(): void {
