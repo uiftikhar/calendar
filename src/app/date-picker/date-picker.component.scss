@@ -2,7 +2,7 @@
 
 .calendar_left {
   background: $primary-color;
-  height: 400px;
+  height: 375px;
   width: 250px;
   border-top-left-radius: $radius;
   border-bottom-left-radius: $radius;
@@ -21,7 +21,7 @@
 
 .calendar_right {
   background: $white;
-  height: 400px;
+  height: 375px;
   border-top-right-radius: $radius;
   border-bottom-right-radius: $radius;
   padding: 1em;
@@ -34,28 +34,34 @@
     height: 50px;
     padding: 1em;
     &.disabled {
-      color: lightgray;
+      color: $light-gray;
     }
-    :hover {
-      //background-color: aliceblue;
-      //border-radius: 100%;
-    }
-    border-radius: 100%;
   }
 }
 
+.mat-fab.mat-accent,
+.mat-flat-button.mat-accent,
+.mat-mini-fab.mat-accent,
+.mat-raised-button.mat-accent {
+  background-color: $black;
+}
+
 .events-container {
-  height: 65px;
+  height: 45px;
   overflow-y: auto;
 }
 
-.active {
+.active, .today {
   background-color: $primary-color;
-  height: 25px;
-  width: 25px;
-  border-radius: 100%;
   color: $white;
   text-align: center;
+  font-weight: bold;
+  &.today {
+    background-color: $today;
+  }
+  &.calendar-date:hover {
+    background-color: $primary-color;
+  }
 }
 
 .event {
@@ -63,7 +69,7 @@
   height: 5px;
   margin-top: -5px;
   border-radius: 50%;
-  background-color: red;
+  background-color: $event-highlight;
   margin-left: 20px;
 }
 
@@ -71,11 +77,24 @@
   cursor: pointer;
 }
 
-.bold {
-  font-weight: bolder;
-  color: black !important;
+.weekday-header {
+  font-size: 20px;
 }
 
+.bold {
+  font-weight: bolder;
+  color: $black !important;
+}
+
+.calendar-date {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  &:hover {
+    background-color: $super-light-gray;
+    border-radius: 50%;
+  }
+}
 .white {
   color: $white;
 }

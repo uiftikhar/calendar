@@ -39,30 +39,33 @@
         <mat-icon>arrow_right</mat-icon>
       </div>
     </div>
-    <div class="header d-flex justify-content-around">
+    <div class="header border-bottom d-flex justify-content-around">
       <div
+        [ngClass]="{ bold: months.isActive }"
         class="pointer light-gray"
-        *ngFor="let months of monthsHeader"
+        *ngFor="let months of monthsHeader; trackBy: trackByFn"
         (click)="onUpdateMonth(months)"
-        [ngClass]="{'bold': months.isActive}"
       >
         {{ months.month }}
       </div>
     </div>
-    <div class="header d-flex justify-content-around mb-2">
-      <div class="calendar-date" *ngFor="let day of weekDaysHeader">
+    <div class="header  d-flex justify-content-around mb-2">
+      <div class="bold weekday-header" *ngFor="let day of weekDaysHeader; trackBy: trackByFn">
         {{ day }}
       </div>
     </div>
     <div class="dates d-flex justify-content-start flex-wrap">
-      <div *ngFor="let day of calendarGrid">
+      <div *ngFor="let day of calendarGrid; trackBy: trackByFn">
         <div
           [ngClass]="{ disabled: !day.isCurrentMonth }"
           class="date_item text-center pointer"
           (click)="onSelectDay(day)"
         >
           <div class="event" *ngIf="day.event.length > 0"></div>
-          <div [ngClass]="{ active: day.isActive }">
+          <div
+            class="calendar-date"
+            [ngClass]="{ active: day.isActive, today: day.today }"
+          >
             {{ day.value.format('DD') }}
           </div>
         </div>

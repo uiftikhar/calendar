@@ -88,7 +88,7 @@ export class DatePickerComponent implements OnInit {
           today: this.isToday(value),
           isCurrentMonth: this.isCurrentMonth(value),
           event: this.eventsForDate(value),
-          isActive: this.isToday(value),
+          isActive: false,
           value,
         };
       },
@@ -163,13 +163,19 @@ export class DatePickerComponent implements OnInit {
   }
 
   onUpdateMonth(selectedMonth: Month): void {
-    this.resetSelectedMonths();
-    selectedMonth.isActive = true;
     this.activeDate.month(selectedMonth.month);
+    this.resetSelectedMonths();
+    this.resetCurrentEvents();
     this.makeGrid();
+    selectedMonth.isActive = true;
   }
 
   resetSelectedMonths() {
     this.monthsHeader.forEach(month => (month.isActive = false));
+  }
+
+  trackByFn(index, item) {
+    console.log(index);
+    return index;
   }
 }
