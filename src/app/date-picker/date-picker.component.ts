@@ -120,23 +120,23 @@ export class DatePickerComponent implements OnInit {
 
   addEvent(title?: string) {
     title = title ? title : this.currentEventsForm.get('currentEvents').value;
-    if (title) {
-      const newEvent = {
-        date: this.activeDate.toISOString(),
-        title,
-      };
+    const newEvent = {
+      date: this.activeDate.toISOString(),
+      title,
+    };
 
+    this.datePicker.addEvent(newEvent).subscribe(() => {
       this.currentEvents.push(newEvent);
-      this.datePicker.addEvent(newEvent).subscribe(() => {
-        this.currentEventsForm.setValue({ currentEvents: '' });
-      });
-    }
+      this.currentEventsForm.setValue({ currentEvents: '' });
+    });
   }
 
   deleteEvent(title: string) {
-    this.currentEvents = this.currentEvents.filter(
-      event => event.title !== title,
-    );
+    this.datePicker.deleteEvent(title).subscribe(() => {
+      this.currentEvents = this.currentEvents.filter(
+        event => event.title !== title,
+      );
+    });
   }
 
   onSelectDay(day: CalendarDate): void {

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { API_URL } from '../../../../configs/config';
 @Injectable({
   providedIn: 'root',
 })
 export class DatePickerService {
-  private apiUrl =
-    'https://www.jsonstore.io/e49d05b6c6c847cd17b52ad120cb289b837faf9d793702182ba12d30b987ffac';
-
   private _currentEvents = [];
 
   set currentEvents(currentEvents) {
@@ -17,11 +15,18 @@ export class DatePickerService {
   constructor(private http: HttpClient) {}
 
   getEvents() {
-    return this.http.get(this.apiUrl).pipe(map((res: any) => res.result));
+    return this.http.get(API_URL).pipe(map((res: any) => res.result));
   }
 
   addEvent(body) {
     this._currentEvents.push(body);
-    return this.http.post(this.apiUrl, this._currentEvents);
+    return this.http.post(API_URL, this._currentEvents);
+  }
+
+  deleteEvent(title) {
+    this._currentEvents = this._currentEvents.filter(
+      event => event.title !== title,
+    );
+    return this.http.post(API_URL, this._currentEvents);
   }
 }

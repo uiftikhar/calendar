@@ -9,10 +9,11 @@ import {
   MatIconModule,
   MatInputModule,
 } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+
 import { DatePickerService } from '../core/services/date-picker.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { API_URL } from '../../../configs/config';
 
 describe('DatePickerComponent', () => {
   let component: DatePickerComponent;
@@ -28,10 +29,14 @@ describe('DatePickerComponent', () => {
         MatInputModule,
         MatFormFieldModule,
         MatButtonModule,
+
         HttpClientTestingModule,
-        HttpClientModule,
       ],
-      providers: [HttpClientModule, DatePickerService],
+      providers: [
+        { provide: API_URL, useValue: API_URL },
+        HttpClientTestingModule,
+        DatePickerService,
+      ],
       declarations: [DatePickerComponent],
     }).compileComponents();
   }));
@@ -105,64 +110,6 @@ describe('DatePickerComponent', () => {
       component.resetCurrentEvents();
       fixture.detectChanges();
       expect(component.events.length).toEqual(0);
-    });
-
-    it('should add event from current event list', () => {
-      component.currentEvents = [
-        {
-          date: moment().toISOString(),
-          title: 'test 1',
-        },
-        {
-          date: moment()
-            .add(2, 'days')
-            .toISOString(),
-          title: 'test 1',
-        },
-        {
-          date: moment()
-            .add(6, 'days')
-            .toISOString(),
-          title: 'test 1',
-        },
-        {
-          date: moment().toISOString(),
-          title: 'test 1',
-        },
-      ];
-
-      component.addEvent('test case event');
-
-      expect(component.currentEvents.length).toEqual(5);
-    });
-
-    it('should delete event from current event list', () => {
-      component.currentEvents = [
-        {
-          date: moment().toISOString(),
-          title: 'test 1',
-        },
-        {
-          date: moment()
-            .add(2, 'days')
-            .toISOString(),
-          title: 'test 3',
-        },
-        {
-          date: moment()
-            .add(6, 'days')
-            .toISOString(),
-          title: 'test 5',
-        },
-        {
-          date: moment().toISOString(),
-          title: 'test 7',
-        },
-      ];
-
-      component.deleteEvent('test 7');
-
-      expect(component.currentEvents.length).toEqual(3);
     });
   });
 });
