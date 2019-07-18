@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { DatePickerService } from '@app/core/services/date-picker.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Date } from '@app/core/models/date';
 import { CalendarDate } from '@app/core/models/calendar-date';
 import { range } from '@app/core/utils';
@@ -107,8 +107,8 @@ export class DatePickerComponent implements OnInit {
     const events = [];
     this.events.forEach(event => {
       if (this.areDatesEqual(event.date, date)) {
-        events.push(event);
         this.currentEvents.push(event);
+        events.push(event);
       }
     });
     return events;
