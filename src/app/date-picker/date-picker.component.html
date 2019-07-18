@@ -1,0 +1,75 @@
+<div class="d-flex justify-content-center align-items-center flex-wrap">
+  <div class="d-flex flex-column align-items-center calendar_left p-5">
+    <div class="">
+      <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
+      <div class="day text-center">{{ activeDate.format('dddd') }}</div>
+    </div>
+    <div class="mt-5 d-flex flex-column justify-content-between h-100">
+      <h6 class="white">Current Events</h6>
+      <div class="m-0 pl-2 events-container">
+        <div class="m-0 white d-flex" *ngFor="let event of currentEvents">
+          {{ event.title }}
+          <div class="pointer ml-auto pr-5" (click)="deleteEvent(event.title)">
+            x
+          </div>
+        </div>
+      </div>
+      <form class="d-flex flex-row" [formGroup]="currentEventsForm">
+        <mat-form-field>
+          <input
+            class="white"
+            matInput
+            placeholder="add event"
+            formControlName="currentEvents"
+          />
+        </mat-form-field>
+        <button mat-mini-fab (click)="addEvent()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="calendar_right">
+    <div class="d-flex justify-content-end">
+      <div class="pointer light-gray" mat-icon-button (click)="prevYear()">
+        <mat-icon>arrow_left</mat-icon>
+      </div>
+      <span class="pl-1 pr-1 light-gray">{{ activeDate.format('YYYY') }}</span>
+      <div class="pointer light-gray" (click)="nextYear()">
+        <mat-icon>arrow_right</mat-icon>
+      </div>
+    </div>
+    <div class="header border-bottom d-flex justify-content-around">
+      <div
+        [ngClass]="{ bold: months.isActive }"
+        class="pointer light-gray"
+        *ngFor="let months of monthsHeader; trackBy: trackByFn"
+        (click)="onUpdateMonth(months)"
+      >
+        {{ months.month }}
+      </div>
+    </div>
+    <div class="header  d-flex justify-content-around mb-2">
+      <div class="bold weekday-header" *ngFor="let day of weekDaysHeader; trackBy: trackByFn">
+        {{ day }}
+      </div>
+    </div>
+    <div class="dates d-flex justify-content-start flex-wrap">
+      <div *ngFor="let day of calendarGrid; trackBy: trackByFn">
+        <div
+          [ngClass]="{ disabled: !day.isCurrentMonth }"
+          class="date_item text-center pointer"
+          (click)="onSelectDay(day)"
+        >
+          <div class="event" *ngIf="day.event.length > 0"></div>
+          <div
+            class="calendar-date"
+            [ngClass]="{ active: day.isActive, today: day.today }"
+          >
+            {{ day.value.format('DD') }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
