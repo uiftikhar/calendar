@@ -4,10 +4,10 @@
       <h1 class="m-0 p-0 date">{{ activeDate.format('DD') }}</h1>
       <div class="day text-center">{{ activeDate.format('dddd') }}</div>
     </div>
-    <div class="mt-5 d-flex flex-column justify-content-between h-100">
+    <div class="mt-4 d-flex flex-column justify-content-between h-100">
       <h6 class="white">Current Events</h6>
       <div class="m-0 pl-2 events-container">
-        <div class="m-0 white d-flex" *ngFor="let event of currentEvents">
+        <div class="m-0 white d-flex event-title" *ngFor="let event of currentEvents">
           {{ event.title }}
           <div class="pointer ml-auto pr-5" (click)="deleteEvent(event.title)">
             x
